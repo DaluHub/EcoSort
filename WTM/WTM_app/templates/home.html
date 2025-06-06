@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}"/>
+</head>
+<body>
+    <div class="WRL">
+        <h2>Welcome to EcoSort!</h2>
+        <p>This is the homepage.</p>
+    </div>
+    <div>
+        <h2>My Pickup Requests</h2>
+        <ul>
+            {% for pickup in pickups %}
+                <li>
+                    {{ pickup.company.name }} - {{ pickup.address }} - {{ pickup.scheduled_date }} - {{ pickup.status }}
+                </li>
+            {% empty %}
+                <li>No pickup requests yet.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
