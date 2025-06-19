@@ -58,11 +58,31 @@ def upgrade_request_view(request):
             upgrade = form.save(commit=False)
             upgrade.user = request.user
             upgrade.save()
+
+            # --------- EMAIL SENDING CODE STARTS HERE ----------
+            from django.core.mail import EmailMessage
+            from django.template.loader import render_to_string
+
+            # Email to user
+            subject = "Your Upgrade Request was Received"
+            html_message = render_to_string('upgrade/email_requested.html', {'user': request.user, 'upgrade': upgrade})
+            user_email = EmailMessage(subject, html_message, to=[request.user.email])
+            user_email.content_subtype = "html"
+            user_email.send()
+
+            # Email to admin
+            admin_subject = "New Upgrade Request Submitted"
+            admin_html = render_to_string('upgrade/email_admin_notify.html', {'user': request.user, 'upgrade': upgrade})
+            admin_email = EmailMessage(admin_subject, admin_html, to=['your_admin_email@example.com'])  # <-- change to your real email
+            admin_email.content_subtype = "html"
+            admin_email.send()
+            # --------- EMAIL SENDING CODE ENDS HERE ----------
+
             return render(request, 'upgrade/request_submitted.html')
     else:
         form = UpgradeRequestForm()
     return render(request, 'upgrade/request_upgrade.html', {'form': form})
-
+    
 def logout_view(request):
     logout(request)
     messages.success(request, "You have been logged out.")
