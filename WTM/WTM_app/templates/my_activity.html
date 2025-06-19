@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Activity</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="WRL">
+            <h2>My Activity</h2>
+            <h3>My Pickup Requests</h3>
+        </div>
+        <div class="activity-list">
+            {% for pickup in pickup_requests %}
+                <div class="activity-card">
+                    <strong>Company:</strong> {{ pickup.company.name }}<br>
+                    <strong>Address:</strong> {{ pickup.address }}<br>
+                    <strong>Date:</strong> {{ pickup.scheduled_date }}<br>
+                    <strong>Status:</strong> {{ pickup.status|title }}
+                </div>
+            {% empty %}
+                <div class="activity-card empty">No pickup requests yet.</div>
+            {% endfor %}
+        </div>
+        <a class="pickup-link" href="{% url 'request_pickup' %}">Request another pickup</a>
+    </div>
+</body>
+</html>

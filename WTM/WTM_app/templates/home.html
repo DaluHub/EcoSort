@@ -1,3 +1,4 @@
+{% extends 'base.html' %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -5,24 +6,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'style.css' %}"/>
+    
 </head>
 <body>
-    <div class="WRL">
-        <h2>Welcome to EcoSort!</h2>
-        <p>This is the homepage.</p>
+    {% block navbar %}
+    <nav class="navbar">
+         <a href="{% url 'home' %}" class="navbar-logo">
+            <img src="{% static 'static_images/EcoSort logo.jfif' %}" alt="EcoSort Logo" style="height:40px; vertical-align:middle;">
+        </a>
+        <div class="navbar-center">
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'about' %}">About Us</a>
+            <a href="{% url 'services' %}">Our Services</a>
+            <a href="{% url 'contact' %}">Contact Us</a>
+        </div>
+
+        <div class="navbar-right">
+            <a href="{% url 'login' %}">Login</a>
+        </div>
+    </nav>
+
+    {% endblock %}
+    {% block content %}
+        <!-- Home page content -->
+         <div class="WRL">
+        <h1>Welcome to EcoSort!</h1>
+        <h2>EcoSort Waste Tracker</h2>
     </div>
-    <div>
-        <h2>My Pickup Requests</h2>
-        <ul>
-            {% for pickup in pickups %}
-                <li>
-                    {{ pickup.company.name }} - {{ pickup.address }} - {{ pickup.scheduled_date }} - {{ pickup.status }}
-                </li>
-            {% empty %}
-                <li>No pickup requests yet.</li>
+
+    <section class="hero">
+        <div class="hero_sub">
+            <div class="hero-text">
+                <h2>{{ hero.heading }}</h2>
+                <p>{{ hero.subtext }}</p>
+                <a href="{{ hero.button_link|default:'#' }}" class="join-btn">{{ hero.button_text }}</a>
+            </div>
+            <div class="hero-image">
+                <img src="{% static 'static_images/main pic.jpeg' %}" alt="EcoSort Action">
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="hero_sec">
+            {% for feature in features %}
+            <div class="feature-card">
+                <img src="{{ feature.image.url }}" alt="{{ feature.alt_text }}">
+                <h3>{{ feature.title }}</h3>
+                <em class="tag-line">{{ feature.tag_line }}</em>
+                <p>{{ feature.description }}</p>
+            </div>
             {% endfor %}
-        </ul>
-    </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 EcoSort | All rights reserved.</p>
+    </footer>
+    {% endblock %}
+    
 </body>
 </html>

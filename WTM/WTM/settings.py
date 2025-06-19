@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -121,6 +122,11 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+# LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/dashboard/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
@@ -133,5 +139,9 @@ AUTHENTICATION_BACKENDS = [
     # 'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
-
-
+# Email settings
+# Looking to send emails in production? Check out our Email API/SMTP product!
+EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
+EMAIL_HOST_USER = 'a183d3e4addee8'
+EMAIL_HOST_PASSWORD = '67ba1831500da5'
+EMAIL_PORT = '2525'

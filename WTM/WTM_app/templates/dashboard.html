@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block navbar %}
+{% load static %}
+<div class="dashboard-container">
+    <nav class="sidebar">
+        <div class="sidebar-logo">
+            <img src="{% static 'static_images/EcoSort logo.jfif' %}" alt="EcoSort Logo">
+        </div>
+        <ul>
+            <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+            <li><a href="{% url 'company_list' %}">Companies</a></li>
+            <li><a href="{% url 'my_activity' %}">My Activities</a></li>
+            <li><a href="{% url 'request_pickup' %}">Request Pickup</a></li>
+            <li><a href="{% url 'upgrade_request' %}" class="upgrade-link">Request Company Upgrade</a></li>
+            <li class="sidebar-dropdown">
+                <button class="sidebar-dropbtn">Rewards</button>
+                <div class="sidebar-dropdown-content">
+                    <a href="{% url 'rewards' %}">My Rewards</a>
+                    <a href="{% url 'redeem' %}">Redeem Tokens</a>
+                    <a href="{% url 'transactions' %}">Transaction History</a>
+                </div>
+            </li>
+            <li class="sidebar-dropdown">
+                <button class="sidebar-dropbtn">Support</button>
+                <div class="sidebar-dropdown-content">
+                    <a href="{% url 'customer_care' %}">Customer Care</a>
+                    <a href="{% url 'report_issue' %}">Report Issue</a>
+                    <a href="{% url 'feedback' %}">Feedback</a>
+                </div>
+            </li>
+            <li><a href="{% url 'profile' %}">Profile</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+    </nav>
+    <main class="dashboard-main">
+        {% block content %}{% endblock %}
+    </main>
+</div>
+{% endblock %}
