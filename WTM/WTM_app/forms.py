@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .models import CustomUser, WastePickupRequest, UpgradeRequest
+from .models import CustomUser, Testimonial, WastePickupRequest, UpgradeRequest
 
 class CustomUserCreationForm(UserCreationForm):
     error_messages = {
@@ -42,3 +42,11 @@ class WastePickupRequestForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['company'].empty_label = "Select a company"
+
+class TestimonialForm(forms.ModelForm):
+    class Meta:
+        model = Testimonial
+        fields = ['text']
+        widgets = {
+            'text': forms.Textarea(attrs={'rows': 3, 'placeholder': 'Share your experience...'}),
+        }    

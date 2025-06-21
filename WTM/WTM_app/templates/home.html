@@ -6,10 +6,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'style.css' %}"/>
-    
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
+
 <body>
     {% block navbar %}
     <nav class="navbar">
@@ -27,16 +30,21 @@
             <a href="{% url 'login' %}">Login</a>
         </div>
     </nav>
-
     {% endblock %}
+
     {% block content %}
-        <!-- Home page content -->
+    <div>
          <div class="WRL">
         <h1>Welcome to EcoSort!</h1>
         <h2>EcoSort Waste Tracker</h2>
     </div>
 
     <section class="hero">
+        <div class="hero-bg-icons">
+            <i class="fas fa-recycle"></i>
+            <i class="fas fa-leaf"></i>
+            <i class="fas fa-globe-africa"></i>
+        </div>
         <div class="hero_sub">
             <div class="hero-text">
                 <h2>{{ hero.heading }}</h2>
@@ -44,7 +52,34 @@
                 <a href="{{ hero.button_link|default:'#' }}" class="join-btn">{{ hero.button_text }}</a>
             </div>
             <div class="hero-image">
-                <img src="{% static 'static_images/main pic.jpeg' %}" alt="EcoSort Action">
+                <img src="{% static 'static_images/clean up 2.jpg' %}" class="hero-img hero-img1" alt="EcoSort Action">
+                <img src="{% static 'static_images/clean up 4.jpg' %}" class="hero-img hero-img2" alt="EcoSort Action">
+            </div>
+        </div>
+    </section>
+
+    <section class="how-it-works">
+        <h2>How EcoSort Works</h2>
+        <div class="steps">
+            <div class="step">
+                <span class="step-icon">1</span>
+                <h4>Register</h4>
+                <p>Create your free EcoSort account in seconds.</p>
+            </div>
+            <div class="step">
+                <span class="step-icon">2</span>
+                <h4>Request Pickup</h4>
+                <p>Schedule a waste pickup at your convenience.</p>
+            </div>
+            <div class="step">
+                <span class="step-icon">3</span>
+                <h4>Sort & Recycle</h4>
+                <p>We collect, sort, and recycle your waste responsibly.</p>
+            </div>
+            <div class="step">
+                <span class="step-icon">4</span>
+                <h4>Earn Rewards</h4>
+                <p>Get rewarded for every eco-friendly action you take!</p>
             </div>
         </div>
     </section>
@@ -62,6 +97,45 @@
         </div>
     </section>
 
+    <section class="impact">
+        <h2>Our Impact</h2>
+        <div class="impact-stats">
+            <div class="stat">
+                <h3>{{ total_users }}</h3>
+                <p>Registered Users</p>
+            </div>
+            <div class="stat">
+                <h3>{{ total_pickups }}</h3>
+                <p>Pickups Completed</p>
+            </div>
+            <div class="stat">
+                <h3>{{ total_waste_recycled }} kg</h3>
+                <p>Waste Recycled</p>
+            </div>
+            <div class="stat">
+                <h3>{{ total_rewards_redeemed }}</h3>
+                <p>Rewards Redeemed</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials">
+        <h2>What Our Users Say</h2>
+        <div class="testimonial-cards">
+            {% for testimonial in testimonials %}
+            <div class="testimonial-card">
+                <p>"{{ testimonial.text }}"</p>
+                <span>- {{ testimonial.user_name }}</span>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="cta">
+        <h2>Ready to Make a Difference?</h2>
+        <a href="{% url 'register' %}" class="join-btn">Join EcoSort Now</a>
+    </section>
+    
     <footer>
         <p>&copy; 2025 EcoSort | All rights reserved.</p>
     </footer>

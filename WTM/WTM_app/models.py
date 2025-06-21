@@ -114,6 +114,15 @@ class UpgradeRequest(models.Model):
             elif not previous.declined and self.declined:
                 self.notify_user('declined')
                 
+class Testimonial(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    text = models.TextField("Testimonial")
+    created_at = models.DateTimeField(auto_now_add=True)
+    approved = models.BooleanField(default=False)  # Only show approved testimonials
+
+    def __str__(self):
+        return f"{self.user.username}: {self.text[:30]}"
+                        
 # 2. Company model
 class Company(models.Model):
     STATUS_CHOICES = (

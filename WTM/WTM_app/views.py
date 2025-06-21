@@ -2,38 +2,48 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
-from .forms import CustomUserCreationForm, UpgradeRequestForm, WastePickupRequestForm, CustomAuthenticationForm
-from .models import WastePickupRequest, Company, Hero, FeatureCard, UpgradeRequest
+from .forms import CustomUserCreationForm, TestimonialForm, UpgradeRequestForm, WastePickupRequestForm, CustomAuthenticationForm
+from .models import Testimonial, WastePickupRequest, Company, Hero, FeatureCard, UpgradeRequest
+from django.db.models import Sum
 
 def home_view(request):
     hero = Hero.objects.first()
     features = FeatureCard.objects.all()
-    return render(request, 'home.html', {'hero': hero, 'features': features})
+    # Example stats (replace with your actual model/fields if different)
+    total_users = 0
+    total_pickups = 0
+    total_waste_recycled = 0
+    total_rewards_redeemed = 0
+    try:
+        from .models import CustomUser, WastePickupRequest, Reward
+        total_users = CustomUser.objects.count()
+        total_pickups = WastePickupRequest.objects.count()
+        total_waste_recycled = WastePickupRequest.objects.aggregate(Sum('waste_weight'))['waste_weight__sum'] or 0
+        total_rewards_redeemed = Reward.objects.count()
+    except Exception:
+        pass  # fallback if models are not available
+
+    testimonials = Testimonial.objects.filter(approved=True).order_by('-created_at')[:6]
+
+    return render(request, 'home.html', {
+        'hero': hero,
+        'features': features,
+        'total_users': total_users,
+        'total_pickups': total_pickups,
+        'total_waste_recycled': total_waste_recycled,
+        'total_rewards_redeemed': total_rewards_redeemed,
+        'testimonials': testimonials,
+    })
+
 
 def about_view(request):
     return render(request, 'about.html')
 
 def services_view(request):
-    return render(request, 'services.html')
+    return render(request, 'pages/services.html')
 
 def contact_view(request):
     return render(request, 'contact.html')
-    
-@login_required
-def dashboard_view(request):
-    # Render dashboard template
-    return render(request, 'dashboard.html')
-
-def register_view(request):
-    if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect('home')  # Change 'home' to your homepage url name
-    else:
-        form = CustomUserCreationForm()
-    return render(request, 'register.html', {'form': form})
 
 def login_view(request):
     if request.method == 'POST':
@@ -45,6 +55,24 @@ def login_view(request):
     else:
         form = CustomAuthenticationForm()
     return render(request, 'login.html', {'form': form})
+
+@login_required
+def dashboard_view(request):
+    # Render dashboard template
+    return render(request, 'dashboard.html')
+
+def register_view(request):
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('dashboard')  # Change 'home' to your homepage url name
+    else:
+        form = CustomUserCreationForm()
+    return render(request, 'register.html', {'form': form})
+
+
 
 @login_required
 def upgrade_request_view(request):
@@ -109,6 +137,21 @@ def my_activity_view(request):
 def company_list_view(request):
     companies = Company.objects.all()
     return render(request, 'company_list.html', {'companies': companies})     
+
+
+@login_required
+def submit_testimonial_view(request):
+    if request.method == 'POST':
+        form = TestimonialForm(request.POST)
+        if form.is_valid():
+            testimonial = form.save(commit=False)
+            testimonial.user = request.user
+            testimonial.save()
+            messages.success(request, "Thank you! Your testimonial will appear after approval.")
+            return redirect('home')
+    else:
+        form = TestimonialForm()
+    return render(request, 'submit_testimonial.html', {'form': form})
 
 # i will still modify am
 def rewards_view(request):

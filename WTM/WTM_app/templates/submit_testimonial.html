@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="testimonial-form-container">
+    <h2>Share Your EcoSort Experience</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit Testimonial</button>
+    </form>
+</div>
+{% endblock %}

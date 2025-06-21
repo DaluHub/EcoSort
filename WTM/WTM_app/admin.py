@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CustomUser, Company, WastePickupRequest, Reward, Transaction, Hero, FeatureCard, UpgradeRequest
+from .models import CustomUser, Testimonial, Company, WastePickupRequest, Reward, Transaction, Hero, FeatureCard, UpgradeRequest
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 
@@ -37,3 +37,10 @@ class UpgradeRequestAdmin(admin.ModelAdmin):
                 email.content_subtype = "html"
                 email.send()
         super().save_model(request, obj, form, change)
+
+
+@admin.register(Testimonial)
+class TestimonialAdmin(admin.ModelAdmin):
+    list_display = ('user', 'text', 'approved', 'created_at')
+    list_filter = ('approved',)
+    search_fields = ('user__username', 'text')        

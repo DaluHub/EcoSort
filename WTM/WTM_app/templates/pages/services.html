@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Our Services | EcoSort</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+    {% block navbar %}
+    <nav class="navbar">
+         <a href="{% url 'home' %}" class="navbar-logo">
+            <img src="{% static 'static_images/EcoSort logo.jfif' %}" alt="EcoSort Logo" style="height:40px; vertical-align:middle;">
+        </a>
+        <div class="navbar-center">
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'about' %}">About Us</a>
+            <a href="{% url 'services' %}">Our Services</a>
+            <a href="{% url 'contact' %}">Contact Us</a>
+        </div>
+
+        <div class="navbar-right">
+            <a href="{% url 'login' %}">Login</a>
+        </div>
+    </nav>
+
+    {% endblock %}
+    
+    <div class="body_con">
+        <div class="services-header">Our EcoSort Services</div>
+        <div class="services-cards">
+            <div class="service-card">
+                <div class="icon"><i class="fas fa-recycle"></i></div>
+                <h3>Smart Waste Collection</h3>
+                <p>
+                    Schedule and track your waste pickups with ease. Our smart system ensures timely, eco-friendly collection for homes, businesses, and communities.
+                </p>
+            </div>
+            <div class="service-card">
+                <div class="icon"><i class="fas fa-leaf"></i></div>
+                <h3>Recycling & Sorting</h3>
+                <p>
+                    We help you sort and recycle plastics, paper, metals, and more. EcoSort maximizes recycling rates and reduces landfill waste for a greener tomorrow.
+                </p>
+            </div>
+            <div class="service-card">
+                <div class="icon"><i class="fas fa-award"></i></div>
+                <h3>Eco Rewards Program</h3>
+                <p>
+                    Earn points and rewards for every responsible disposal and recycling action. Redeem tokens for discounts, gifts, or community benefits.
+                </p>
+            </div>
+        </div>
+
+        <div class="services-footer">
+            &copy; 2025 EcoSort | All rights reserved.
+        </div>
+    </div>
+</body>
+</html>
