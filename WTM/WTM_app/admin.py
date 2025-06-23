@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CustomUser, Testimonial, Company, WastePickupRequest, Reward, Transaction, Hero, FeatureCard, UpgradeRequest
+from .models import CustomUser, Testimonial, Service, WhyChooseUs, ServiceStep, Company, WastePickupRequest, Reward, Transaction, Hero, FeatureCard, UpgradeRequest
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 
@@ -10,6 +10,9 @@ admin.site.register(Reward)
 admin.site.register(Transaction)
 admin.site.register(Hero)
 admin.site.register(FeatureCard)
+admin.site.register(Service)
+admin.site.register(WhyChooseUs)
+admin.site.register(ServiceStep)
 
 
 

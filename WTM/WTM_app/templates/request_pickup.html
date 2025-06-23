@@ -8,27 +8,29 @@
     <link rel="stylesheet" href="{% static 'style.css' %}"/>
 </head>
 <body>
-    <div class="container">
-        <div class="WRL">
-            <h2>Request Waste Pickup</h2>
+    <div class="auth-container">
+        <div class="auth-box">
+            <div class="WRL">
+                <h2>Request Waste Pickup</h2>
+            </div>
+            <form method="post" class="pickup-form">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="form-group">
+                        {{ field.label_tag }}
+                        {{ field }}
+                        {% if field.errors %}
+                            <ul class="errorlist">
+                                {% for error in field.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                <button type="submit" class="btn-green">Request Pickup</button>
+            </form>
         </div>
-        <form method="post" class="pickup-form">
-            {% csrf_token %}
-            {% for field in form %}
-                <div class="form-group">
-                    {{ field.label_tag }}
-                    {{ field }}
-                    {% if field.errors %}
-                        <ul class="errorlist">
-                            {% for error in field.errors %}
-                                <li>{{ error }}</li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                </div>
-            {% endfor %}
-            <button type="submit">Request Pickup</button>
-        </form>
     </div>
 </body>
 </html>

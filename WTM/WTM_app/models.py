@@ -5,6 +5,7 @@ from django.contrib.auth import get_user_model
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 
+
 # 1. Custom User model with roles
 class CustomUser(AbstractUser):
     ROLE_CHOICES = (
@@ -41,8 +42,8 @@ class FeatureCard(models.Model):
     def __str__(self):
         return self.title
 
-User = get_user_model()
 
+User = get_user_model()
 class UpgradeRequest(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
@@ -164,6 +165,32 @@ class WastePickupRequest(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.company.name} ({self.status})"
+
+
+# service page
+class Service(models.Model):
+    icon = models.CharField(max_length=50, help_text="Font Awesome class, e.g. 'fas fa-recycle'")
+    title = models.CharField(max_length=100)
+    description = models.TextField()
+
+    def __str__(self):
+        return self.title
+
+class WhyChooseUs(models.Model):
+    icon = models.CharField(max_length=50, help_text="Font Awesome class")
+    title = models.CharField(max_length=100)
+    desc = models.TextField()
+
+    def __str__(self):
+        return self.title
+
+class ServiceStep(models.Model):
+    icon = models.CharField(max_length=20, help_text="Step number or icon")
+    title = models.CharField(max_length=100)
+    desc = models.TextField()
+
+    def __str__(self):
+        return self.title
 
 # 4. Reward/Token model
 class Reward(models.Model):

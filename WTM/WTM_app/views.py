@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from .forms import CustomUserCreationForm, TestimonialForm, UpgradeRequestForm, WastePickupRequestForm, CustomAuthenticationForm
-from .models import Testimonial, WastePickupRequest, Company, Hero, FeatureCard, UpgradeRequest
+from .models import Testimonial, WastePickupRequest, Service, WhyChooseUs, ServiceStep, Company, Hero, FeatureCard, UpgradeRequest
 from django.db.models import Sum
 
 def home_view(request):
@@ -152,6 +152,26 @@ def submit_testimonial_view(request):
     else:
         form = TestimonialForm()
     return render(request, 'submit_testimonial.html', {'form': form})
+
+
+def services_view(request):
+    services_header = "Our EcoSort Services"
+    why_choose_us_header = "Why Choose EcoSort?"
+    steps_header = "How It Works"
+    cta_header = "Ready to Make a Difference?"
+    cta_btn = "Join EcoSort Now"
+    footer_text = "© 2025 EcoSort | All rights reserved."
+    return render(request, 'pages/services.html', {
+        'services_header': services_header,
+        'services': Service.objects.all(),
+        'why_choose_us_header': why_choose_us_header,
+        'why_cards': WhyChooseUs.objects.all(),
+        'steps_header': steps_header,
+        'steps': ServiceStep.objects.all(),
+        'cta_header': cta_header,
+        'cta_btn': cta_btn,
+        'footer_text': footer_text,
+    })
 
 # i will still modify am
 def rewards_view(request):

@@ -24,35 +24,55 @@
             <a href="{% url 'login' %}">Login</a>
         </div>
     </nav>
-
     {% endblock %}
     
     <div class="body_con">
-        <div class="services-header">Our EcoSort Services</div>
+        <div class="services-header">{{ services_header }}</div>
         <div class="services-cards">
+            {% for service in services %}
             <div class="service-card">
-                <div class="icon"><i class="fas fa-recycle"></i></div>
-                <h3>Smart Waste Collection</h3>
-                <p>
-                    Schedule and track your waste pickups with ease. Our smart system ensures timely, eco-friendly collection for homes, businesses, and communities.
-                </p>
+                <div class="icon"><i class="{{ service.icon }}"></i></div>
+                <h3>{{ service.title }}</h3>
+                <p>{{ service.description }}</p>
             </div>
-            <div class="service-card">
-                <div class="icon"><i class="fas fa-leaf"></i></div>
-                <h3>Recycling & Sorting</h3>
-                <p>
-                    We help you sort and recycle plastics, paper, metals, and more. EcoSort maximizes recycling rates and reduces landfill waste for a greener tomorrow.
-                </p>
-            </div>
-            <div class="service-card">
-                <div class="icon"><i class="fas fa-award"></i></div>
-                <h3>Eco Rewards Program</h3>
-                <p>
-                    Earn points and rewards for every responsible disposal and recycling action. Redeem tokens for discounts, gifts, or community benefits.
-                </p>
-            </div>
+            {% endfor %}
         </div>
 
+        <section class="why-choose-us">
+            <h2>{{ why_choose_us_header }}</h2>
+            <div class="why-cards">
+                {% for card in why_cards %}
+                <div class="why-card">
+                    <i class="{{ card.icon }}"></i>
+                    <h4>{{ card.title }}</h4>
+                    <p>{{ card.desc }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section class="service-steps">
+            <h2>{{ steps_header }}</h2>
+            <div class="steps-cards">
+                {% for step in steps %}
+                <div class="step-card">
+                    <span class="step-icon">{{ step.icon }}</span>
+                    <h5>{{ step.title }}</h5>
+                    <p>{{ step.desc }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <div class="services-cta">
+            <h2>{{ cta_header }}</h2>
+            <a href="{% url 'register' %}" class="join-btn">{{ cta_btn }}</a>
+        </div>
+
+        <div class="services-footer">
+            {{ footer_text }}
+        </div>
+    </div>
         <div class="services-footer">
             &copy; 2025 EcoSort | All rights reserved.
         </div>

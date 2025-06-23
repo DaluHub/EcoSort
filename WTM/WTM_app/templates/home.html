@@ -7,10 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="{% static 'style.css' %}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Poppins:400,600&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">>
 </head>
 
 <body>
@@ -33,27 +33,24 @@
     {% endblock %}
 
     {% block content %}
-    <div>
-         <div class="WRL">
-        <h1>Welcome to EcoSort!</h1>
-        <h2>EcoSort Waste Tracker</h2>
-    </div>
-
     <section class="hero">
-        <div class="hero-bg-icons">
-            <i class="fas fa-recycle"></i>
-            <i class="fas fa-leaf"></i>
-            <i class="fas fa-globe-africa"></i>
-        </div>
-        <div class="hero_sub">
-            <div class="hero-text">
-                <h2>{{ hero.heading }}</h2>
-                <p>{{ hero.subtext }}</p>
-                <a href="{{ hero.button_link|default:'#' }}" class="join-btn">{{ hero.button_text }}</a>
+        <div class="hero-inner">
+            <div>
+                <div class="WRL">
+                <h1>Welcome to EcoSort!</h1>
+                <h2>EcoSort Waste Tracker</h2>
             </div>
-            <div class="hero-image">
-                <img src="{% static 'static_images/clean up 2.jpg' %}" class="hero-img hero-img1" alt="EcoSort Action">
-                <img src="{% static 'static_images/clean up 4.jpg' %}" class="hero-img hero-img2" alt="EcoSort Action">
+            
+            <div class="hero_sub">
+                <div class="hero-text">
+                    <h2>{{ hero.heading }}</h2>
+                    <p>{{ hero.subtext }}</p>
+                    <a href="{{ hero.button_link|default:'#' }}" class="join-btn">{{ hero.button_text }}</a>
+                </div>
+                <div class="hero-image">
+                    <img src="{% static 'static_images/clean up 2.jpg' %}" class="hero-img hero-img1" alt="EcoSort Action">
+                    <img src="{% static 'static_images/clean up 4.jpg' %}" class="hero-img hero-img2" alt="EcoSort Action">
+                </div>
             </div>
         </div>
     </section>
@@ -85,7 +82,7 @@
     </section>
 
     <section class="features">
-        <div class="hero_sec">
+        <div class="feature_sec">
             {% for feature in features %}
             <div class="feature-card">
                 <img src="{{ feature.image.url }}" alt="{{ feature.alt_text }}">
@@ -119,17 +116,19 @@
         </div>
     </section>
 
+    {% if testimonials %}
     <section class="testimonials">
         <h2>What Our Users Say</h2>
         <div class="testimonial-cards">
             {% for testimonial in testimonials %}
             <div class="testimonial-card">
                 <p>"{{ testimonial.text }}"</p>
-                <span>- {{ testimonial.user_name }}</span>
+                <span>- {{ testimonial.user.username }}</span>
             </div>
             {% endfor %}
         </div>
     </section>
+    {% endif %}
 
     <section class="cta">
         <h2>Ready to Make a Difference?</h2>

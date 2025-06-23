@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>New Upgrade Request Submitted</title>
+</head>
+<body>
+    <h2>New Upgrade Request Submitted</h2>
+    <p><strong>User:</strong> {{ user.username }} ({{ user.email }})</p>
+    <p><strong>Company Name:</strong> {{ upgrade.company_name }}</p>
+    <p><strong>Reason:</strong> {{ upgrade.justification }}</p>
+    <p><strong>Submitted at:</strong> {{ upgrade.created_at }}</p>
+    <p>Log in to the admin panel to review and approve or reject this request.</p>
+</body>
+</html>
