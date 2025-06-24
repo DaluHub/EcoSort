@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Our Services | EcoSort</title>
     <link rel="stylesheet" href="{% static 'style.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
     {% block navbar %}
@@ -26,56 +26,63 @@
     </nav>
     {% endblock %}
     
-    <div class="body_con">
-        <div class="services-header">{{ services_header }}</div>
-        <div class="services-cards">
-            {% for service in services %}
-            <div class="service-card">
-                <div class="icon"><i class="{{ service.icon }}"></i></div>
-                <h3>{{ service.title }}</h3>
-                <p>{{ service.description }}</p>
+    <section class="services-hero">
+        <div class="services-hero-text">
+            <h1 class="hero-title-animate">{{ content.hero_title }}</h1>
+            <div class="services-hero-flex">
+                <div class="services-hero-info">
+                    <h3 class="hero-fadein">{{ content.hero_subtitle }}</h3>
+                    <p class="hero-fadein">{{ content.hero_desc }}</p>
+                </div>
+                <img src="{% static 'static_images/recycling-graphic-1.png' %}" class="services-hero-img hero-img-animate" alt="EcoSort Recycling">
+            </div>
+        </div>
+    </section>
+
+    <section class="services-grid">
+        {% for service in services %}
+        <div class="service-tile">
+            <div class="service-icon"><i class="{{ service.icon }}"></i></div>
+            <h3>{{ service.title }}</h3>
+            <p>{{ service.description }}</p>
+        </div>
+        {% endfor %}
+    </section>
+
+    <section class="why-choose-us-alt">
+        <h2>Why Choose EcoSort?</h2>
+        <div class="why-grid">
+            {% for card in why_cards %}
+            <div class="why-tile">
+                <i class="{{ card.icon }}"></i>
+                <h4>{{ card.title }}</h4>
+                <p>{{ card.desc }}</p>
             </div>
             {% endfor %}
         </div>
+    </section>
 
-        <section class="why-choose-us">
-            <h2>{{ why_choose_us_header }}</h2>
-            <div class="why-cards">
-                {% for card in why_cards %}
-                <div class="why-card">
-                    <i class="{{ card.icon }}"></i>
-                    <h4>{{ card.title }}</h4>
-                    <p>{{ card.desc }}</p>
-                </div>
-                {% endfor %}
+    <section class="steps-section">
+        <h2>How It Works</h2>
+        <div class="steps-flow">
+            {% for step in steps %}
+            <div class="step-bubble">
+                <span class="bubble-icon"><i class="{{ step.icon }}"></i></span>
+                <h5>{{ step.title }}</h5>
+                <p>{{ step.desc }}</p>
             </div>
-        </section>
-
-        <section class="service-steps">
-            <h2>{{ steps_header }}</h2>
-            <div class="steps-cards">
-                {% for step in steps %}
-                <div class="step-card">
-                    <span class="step-icon">{{ step.icon }}</span>
-                    <h5>{{ step.title }}</h5>
-                    <p>{{ step.desc }}</p>
-                </div>
-                {% endfor %}
-            </div>
-        </section>
-
-        <div class="services-cta">
-            <h2>{{ cta_header }}</h2>
-            <a href="{% url 'register' %}" class="join-btn">{{ cta_btn }}</a>
+            {% endfor %}
         </div>
+    </section>
 
-        <div class="services-footer">
-            {{ footer_text }}
-        </div>
+    <div class="cta-alt">
+        <h2>{{ content.cta_text }}</h2>
+        <a href="{% url 'register' %}" class="join-btn-alt">{{ content.cta_btn }}</a>
     </div>
-        <div class="services-footer">
-            &copy; 2025 EcoSort | All rights reserved.
-        </div>
-    </div>
+
+    <footer class="services-footer-alt">
+        {{ content.footer_text }}
+    </footer>
+    
 </body>
 </html>

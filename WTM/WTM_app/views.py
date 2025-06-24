@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from .forms import CustomUserCreationForm, TestimonialForm, UpgradeRequestForm, WastePickupRequestForm, CustomAuthenticationForm
-from .models import Testimonial, WastePickupRequest, Service, WhyChooseUs, ServiceStep, Company, Hero, FeatureCard, UpgradeRequest
+from .models import Testimonial, WastePickupRequest, Service, WhyChooseUs, ServiceStep, ServicePageContent, Company, Hero, FeatureCard, UpgradeRequest
 from django.db.models import Sum
 
 def home_view(request):
@@ -131,8 +131,12 @@ def request_pickup_view(request):
 
 @login_required
 def my_activity_view(request):
+    content = ActivityPageContent.objects.first()
     pickup_requests = WastePickupRequest.objects.filter(user=request.user)
-    return render(request, 'my_activity.html', {'pickup_requests': pickup_requests})  
+    return render(request, 'my_activity.html', {
+        'content': content,
+        'pickup_requests': pickup_requests,
+    })
 
 def company_list_view(request):
     companies = Company.objects.all()
@@ -155,22 +159,12 @@ def submit_testimonial_view(request):
 
 
 def services_view(request):
-    services_header = "Our EcoSort Services"
-    why_choose_us_header = "Why Choose EcoSort?"
-    steps_header = "How It Works"
-    cta_header = "Ready to Make a Difference?"
-    cta_btn = "Join EcoSort Now"
-    footer_text = "© 2025 EcoSort | All rights reserved."
+    content = ServicePageContent.objects.first()
     return render(request, 'pages/services.html', {
-        'services_header': services_header,
+        'content': content,
         'services': Service.objects.all(),
-        'why_choose_us_header': why_choose_us_header,
         'why_cards': WhyChooseUs.objects.all(),
-        'steps_header': steps_header,
         'steps': ServiceStep.objects.all(),
-        'cta_header': cta_header,
-        'cta_btn': cta_btn,
-        'footer_text': footer_text,
     })
 
 # i will still modify am

@@ -166,10 +166,9 @@ class WastePickupRequest(models.Model):
     def __str__(self):
         return f"{self.user.username} - {self.company.name} ({self.status})"
 
-
 # service page
 class Service(models.Model):
-    icon = models.CharField(max_length=50, help_text="Font Awesome class, e.g. 'fas fa-recycle'")
+    icon = models.CharField(max_length=100, help_text="Font Awesome class, e.g. 'fas fa-recycle'")
     title = models.CharField(max_length=100)
     description = models.TextField()
 
@@ -177,7 +176,7 @@ class Service(models.Model):
         return self.title
 
 class WhyChooseUs(models.Model):
-    icon = models.CharField(max_length=50, help_text="Font Awesome class")
+    icon = models.CharField(max_length=100, help_text="Font Awesome class")
     title = models.CharField(max_length=100)
     desc = models.TextField()
 
@@ -185,12 +184,33 @@ class WhyChooseUs(models.Model):
         return self.title
 
 class ServiceStep(models.Model):
-    icon = models.CharField(max_length=20, help_text="Step number or icon")
+    icon = models.CharField(max_length=100, help_text="Step number or icon")
     title = models.CharField(max_length=100)
     desc = models.TextField()
 
     def __str__(self):
         return self.title
+
+class ServicePageContent(models.Model):
+    hero_title = models.CharField(max_length=150, default="EcoSort Recycling Services")
+    hero_subtitle = models.CharField(max_length=255, default="Innovative, Sustainable, Community-Driven")
+    hero_desc = models.TextField(default="Discover how EcoSort is transforming waste management and recycling for a cleaner, greener future.")
+    cta_text = models.CharField(max_length=120, default="Ready to Make a Difference?")
+    cta_btn = models.CharField(max_length=40, default="Join EcoSort Now")
+    footer_text = models.CharField(max_length=120, default="© 2025 EcoSort | All rights reserved.")
+
+    def __str__(self):
+        return "Service Page Content"
+
+# models.py
+class ActivityPageContent(models.Model):
+    title = models.CharField(max_length=100, default="My Activity")
+    subtitle = models.CharField(max_length=200, default="My Pickup Requests")
+    empty_message = models.CharField(max_length=200, default="No pickup requests yet.")
+    cta_request = models.CharField(max_length=100, default="Request another pickup")
+
+    def __str__(self):
+        return "Activity Page Content"
 
 # 4. Reward/Token model
 class Reward(models.Model):
