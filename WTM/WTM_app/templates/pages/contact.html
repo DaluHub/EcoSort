@@ -1,0 +1,93 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ contact.hero_title }}</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+    <section class="contact-hero">
+        <div class="contact-hero-left">
+            <h1>{{ contact.hero_title }}</h1>
+            <p>{{ contact.hero_subtitle }}</p>
+        </div>
+        <div class="contact-hero-right">
+            <img src="{{ contact.hero_image.url }}" alt="Hero Image">
+        </div>
+    </section>
+
+    <section class="contact-info">
+        <h2>Get In Touch</h2>
+        <h3>{{ contact.contact_heading }}</h3>
+        <p>{{ contact.contact_message }}</p>
+        <ul>
+            <li><strong>We’re Open:</strong> {{ contact.open_days }}</li>
+            <li><strong>Office Location:</strong> {{ contact.address }}</li>
+            <li><strong>Call Us:</strong> {{ contact.phone }}</li>
+            <li><strong>Email:</strong> {{ contact.email }}</li>
+        </ul>
+    </section>
+
+    <section class="contact-form-section">
+        <h3>Send a Message</h3>
+        <form method="post">
+            {% csrf_token %}
+            <input type="text" name="name" placeholder="Your Name" required><br>
+            <input type="email" name="email" placeholder="Your Email" required><br>
+            <input type="text" name="phone" placeholder="Your Phone"><br>
+            <textarea name="message" placeholder="Your Message" required></textarea><br>
+            <button type="submit">Send Message</button>
+        </form>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-about">
+                <img src="{{ footer.logo.url }}" alt="EcoSort Logo" class="footer-logo">
+                <p>{{ footer.about_text }}</p>
+            </div>
+
+            <div class="footer-links">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                        <li><a href="{% url 'services' %}">Our Services</a></li>
+                        <li><a href="{% url 'about' %}">About Us</a></li>
+                    <li><a href="{% url 'contact' %}">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-services">
+                <h4>Our Services</h4>
+                <ul>
+                    <li>{{ footer.service1 }}</li>
+                    <li>{{ footer.service2 }}</li>
+                    <li>{{ footer.service3 }}</li>
+                    <li>{{ footer.service4 }}</li>
+                    <li>{{ footer.service5 }}</li>
+                    <li>{{ footer.service6 }}</li>
+                </ul>
+            </div>
+
+            <div class="footer-newsletter">
+                <h4>Subscribe to Newsletter</h4>
+                <form>
+                    <input type="email" placeholder="Enter your email">
+                    <button type="submit">→</button>
+                </form>
+                <p>{{ footer.newsletter_text }}</p>
+
+                <div class="footer-social">
+                    <a href="{{ footer.facebook }}" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="{{ footer.twitter }}" target="_blank"><i class="fab fa-twitter"></i></a>
+                    <a href="{{ footer.linkedin }}" target="_blank"><i class="fab fa-linkedin"></i></a>
+                    <a href="{{ footer.youtube }}" target="_blank"><i class="fab fa-youtube"></i></a>
+                    <a href="{{ footer.whatsapp }}" target="_blank"><i class="fab fa-whatsapp"></i></a>   
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

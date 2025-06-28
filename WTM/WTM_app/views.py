@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from datetime import date
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from .forms import CustomUserCreationForm, TestimonialForm, UpgradeRequestForm, WastePickupRequestForm, CustomAuthenticationForm
-from .models import Testimonial, WastePickupRequest, Service, WhyChooseUs, ServiceStep, ServicePageContent, Company, Hero, FeatureCard, UpgradeRequest
+from .models import Testimonial, WastePickupRequest,ContactPage, Footer, Service, WhyChooseUs, ServiceStep, ServicePageContent, Company, Hero, FeatureCard, UpgradeRequest
 from django.db.models import Sum
 
 def home_view(request):
@@ -35,15 +36,21 @@ def home_view(request):
         'testimonials': testimonials,
     })
 
+    def home_view(request):
+        return render(request, 'home.html')
+
+
+def contact_view(request):
+    contact = ContactPage.objects.first()
+    footer = Footer.objects.first()
+    return render(request, 'pages/contact.html', {'contact': contact, 'footer': footer})
+
+
 
 def about_view(request):
     return render(request, 'about.html')
 
-def services_view(request):
-    return render(request, 'pages/services.html')
 
-def contact_view(request):
-    return render(request, 'contact.html')
 
 def login_view(request):
     if request.method == 'POST':
@@ -129,13 +136,31 @@ def request_pickup_view(request):
         form = WastePickupRequestForm()
     return render(request, 'request_pickup.html', {'form': form}) 
 
+from .models import ActivityPageContent, WastePickupRequest
+
 @login_required
 def my_activity_view(request):
+    user = request.user
     content = ActivityPageContent.objects.first()
     pickup_requests = WastePickupRequest.objects.filter(user=request.user)
+    recent_pickups = pickup_requests.filter(scheduled_date__gte=date.today()).order_by('-scheduled_date')
+    old_pickups = pickup_requests.filter(scheduled_date__lt=date.today()).order_by('-scheduled_date')
+    goal_kg = content.goal_kg if content else 50
+    total_recycled = sum([p.weight_kg or 0 for p in pickup_requests if hasattr(p, 'weight_kg')])
+    progress = min(int((total_recycled / goal_kg) * 100), 100) if goal_kg else 0
+    stats = {
+        'total_pickups': pickup_requests.count(),
+        'total_recycled': total_recycled,
+        'eco_points': getattr(request.user, 'eco_points', 0),
+        'goal_kg': goal_kg,
+        'progress': progress,
+    }
     return render(request, 'my_activity.html', {
         'content': content,
-        'pickup_requests': pickup_requests,
+        'stats': stats,
+        'recent_pickups': recent_pickups,
+        'old_pickups': old_pickups,
+        'user': request.user,
     })
 
 def company_list_view(request):
@@ -166,6 +191,10 @@ def services_view(request):
         'why_cards': WhyChooseUs.objects.all(),
         'steps': ServiceStep.objects.all(),
     })
+
+    def services_view(request):
+        return render(request, 'pages/services.html')
+
 
 # i will still modify am
 def rewards_view(request):

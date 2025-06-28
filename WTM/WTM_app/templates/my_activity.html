@@ -7,60 +7,120 @@
     <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 <body>
-    <div class="dashboard-container">
-    <nav class="sidebar">
-        <div class="sidebar-logo">
-            <img src="{% static 'static_images/EcoSort logo.jfif' %}" alt="EcoSort Logo">
-        </div>
-        <ul>
-            <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
-            <li><a href="{% url 'company_list' %}">Companies</a></li>
-            <li><a href="{% url 'my_activity' %}">My Activities</a></li>
-            <li><a href="{% url 'request_pickup' %}">Request Pickup</a></li>
-            <li><a href="{% url 'upgrade_request' %}" class="upgrade-link">Request Company Upgrade</a></li>
-            <li class="sidebar-dropdown">
-            <button class="sidebar-dropbtn">Rewards</button>
-                <div class="sidebar-dropdown-content">
-                    <a href="{% url 'rewards' %}">My Rewards</a>
-                    <a href="{% url 'redeem' %}">Redeem Tokens</a>
-                    <a href="{% url 'transactions' %}">Transaction History</a>
-                </div>
-            </li>
-            <li class="sidebar-dropdown">
-            <button class="sidebar-dropbtn">Support</button>
-                <div class="sidebar-dropdown-content">
-                    <a href="{% url 'customer_care' %}">Customer Care</a>
-                    <a href="{% url 'report_issue' %}">Report Issue</a>
-                    <a href="{% url 'feedback' %}">Feedback</a>
-                </div>
-            </li>
-            <li><a href="{% url 'profile' %}">Profile</a></li>
-            <li><a href="{% url 'logout' %}">Logout</a></li>
-        </ul>
-    </nav>
-
-    
-
-
-    <div class="auth_container">
-        <div class="auth-box">
-            <div class="WRL">
-                <h2>My Activity</h2>
-                <h3>My Pickup Requests</h3>
+    <div class="activity-page-contentainer">
+        <div class="dashboard-container">
+        <nav class="sidebar">
+            <div class="sidebar-logo">
+                <img src="{% static 'static_images/EcoSort logo.jfif' %}" alt="EcoSort Logo">
             </div>
-            <div class="activity-list">
-                {% for pickup in pickup_requests %}
-                    <div class="activity-card">
-                        <strong>Company:</strong> {{ pickup.company.name }}<br>
-                        <strong>Address:</strong> {{ pickup.address }}<br>
-                        <strong>Date:</strong> {{ pickup.scheduled_date }}<br>
-                        <strong>Status:</strong> {{ pickup.status|title }}
+            <ul>
+                <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                <li><a href="{% url 'company_list' %}">Companies</a></li>
+                <li><a href="{% url 'my_activity' %}">My Activities</a></li>
+                <li><a href="{% url 'request_pickup' %}">Request Pickup</a></li>
+                <li><a href="{% url 'upgrade_request' %}" class="upgrade-link">Request Company Upgrade</a></li>
+                <li class="sidebar-dropdown">
+                <button class="sidebar-dropbtn">Rewards</button>
+                    <div class="sidebar-dropdown-content">
+                        <a href="{% url 'rewards' %}">My Rewards</a>
+                        <a href="{% url 'redeem' %}">Redeem Tokens</a>
+                        <a href="{% url 'transactions' %}">Transaction History</a>
                     </div>
-                {% empty %}
-                    <div class="activity-card empty">No pickup requests yet.</div>
-                {% endfor %}
+                </li>
+                <li class="sidebar-dropdown">
+                <button class="sidebar-dropbtn">Support</button>
+                    <div class="sidebar-dropdown-content">
+                        <a href="{% url 'customer_care' %}">Customer Care</a>
+                        <a href="{% url 'report_issue' %}">Report Issue</a>
+                        <a href="{% url 'feedback' %}">Feedback</a>
+                    </div>
+                </li>
+                <li><a href="{% url 'profile' %}">Profile</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            </ul>
+        </nav>
+
+        <div class="act-box">
+            <div class="act-content">
+                <div class="activity-welcome">
+                    <div class="act-flex">
+                        <div>
+                            <h2>{{ content.title }}</h2>
+                        </div>
+                        <div>
+                            <h3>Welcome, {{ user.first_name|default:user.username }}</h3>
+                        </div>
+                    </div>
+                    <h4>{{ content.subtitle }}</h4>
+                </div>
+                
+                <div class="activity-stats-glass">
+                    <div class="stat-card-glass">
+                        <span class="stat-value-glass">{{ stats.total_pickups }}</span>
+                        <span class="stat-label-glass">Pickups</span>
+                    </div>
+                    <div class="stat-card-glass">
+                        <span class="stat-value-glass">{{ stats.total_recycled }}</span>
+                        <span class="stat-label-glass">Kg Recycled</span>
+                    </div>
+                    <div class="stat-card-glass">
+                        <span class="stat-value-glass">{{ stats.eco_points }}</span>
+                        <span class="stat-label-glass">Eco Points</span>
+                    </div>
+                </div>
+
+                <div class="progress-label-glass">
+                    <span>{{ content.goal_label }}:</span>
+                    <strong>{{ stats.total_recycled }}kg / {{ stats.goal_kg }}kg</strong>
+                </div>
+                <div class="progress-bar-glass">
+                    <div class="progress-glass" style="width: {{ stats.progress|default_if_none:0|floatformat:0 }}%;"></div>
+                </div>
+
+                <div class="activity-section-glass">
+                    <div class="activity-list-group-glass">
+                        <div class="activity-list-glass">
+                            <div class="activity-list-title-glass">Recent Activity</div>
+                            {% for pickup in recent_pickups %}
+                                <div class="activity-card-glass">
+                                    <div class="activity-row-glass">
+                                        <span class="activity-company-glass">{{ pickup.company.name }}</span>
+                                        <span class="activity-status-glass {{ pickup.status|lower }}">{{ pickup.status|title }}</span>
+                                    </div>
+                                    <div class="activity-details-glass">
+                                        <span class="activity-date-glass">{{ pickup.scheduled_date }}</span>
+                                        <span class="activity-address-glass">{{ pickup.address }}</span>
+                                    </div>
+                                </div>
+                            {% empty %}
+                                <div class="activity-card-glass empty">No recent activity.</div>
+                            {% endfor %}
+                        </div>
+                        <div class="activity-list-glass">
+                            <div class="activity-list-title-glass">Old Activity</div>
+                            {% for pickup in old_pickups %}
+                                <div class="activity-card-glass">
+                                    <div class="activity-row-glass">
+                                        <span class="activity-company-glass">{{ pickup.company.name }}</span>
+                                        <span class="activity-status-glass {{ pickup.status|lower }}">{{ pickup.status|title }}</span>
+                                    </div>
+                                    <div class="activity-details-glass">
+                                        <span class="activity-date-glass">{{ pickup.scheduled_date }}</span>
+                                        <span class="activity-address-glass">{{ pickup.address }}</span>
+                                    </div>
+                                </div>
+                            {% empty %}
+                                <div class="activity-card-glass empty">No old activity.</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="activity-actions-glass">
+                    <a class="activity-btn-glass" href="{% url 'request_pickup' %}">{{ content.cta_request }}</a>
+                    <a class="activity-btn-glass secondary" href="{% url 'rewards' %}">{{ content.cta_rewards }}</a>
+                </div>
             </div>
-            <a class="pickup-link" href="{% url 'request_pickup' %}">Request another pickup</a>
         </div>
     </div>
 </body>

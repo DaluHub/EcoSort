@@ -123,7 +123,56 @@ class Testimonial(models.Model):
 
     def __str__(self):
         return f"{self.user.username}: {self.text[:30]}"
-                        
+
+
+# contact page 
+class ContactPage(models.Model):
+    hero_title = models.CharField(max_length=100, default="Contact Us")
+    hero_subtitle = models.CharField(max_length=255, default="Smart Waste Disposal for a Cleaner Future")
+    hero_image = models.ImageField(upload_to="contact_hero/")
+
+    contact_heading = models.CharField(max_length=100, default="We are always ready to help you and answer your questions")
+    contact_message = models.TextField(default="Whether you have a question, a suggestion, or just want to say hello...")
+
+    open_days = models.CharField(max_length=100, default="Monday - Friday 08.00 – 18.00")
+    address = models.CharField(max_length=255, default="100 S Main St, New York, NY")
+    phone = models.CharField(max_length=20, default="+1 123 456 789")
+    email = models.EmailField(default="contact@ecosort.com")
+
+    def __str__(self):
+        return "Contact Page Content"
+
+class Footer(models.Model):
+    logo = models.ImageField(upload_to='footer/')
+    about_text = models.TextField()
+
+    # Company links
+    company_home = models.CharField(max_length=255, blank=True, null=True)
+    company_about = models.CharField(max_length=255, blank=True, null=True)
+    company_services = models.CharField(max_length=255, blank=True, null=True)
+    company_contact = models.CharField(max_length=255, blank=True, null=True)
+
+    # Services links
+    service1 = models.CharField(max_length=100, default="Waste Collection")
+    service2 = models.CharField(max_length=100, default="Waste Recycling")
+    service3 = models.CharField(max_length=100, default="Waste to Rewards")
+    service4 = models.CharField(max_length=100, default="Recycling Education")
+    service5 = models.CharField(max_length=100, default="EcoSort Support")
+    service6 = models.CharField(max_length=100, default="Medical Waste")
+
+    # Newsletter
+    newsletter_text = models.CharField(max_length=255, default="Your email is safe with us. We don’t spam.")
+
+    # Social Links
+    facebook = models.URLField(default="#")
+    twitter = models.URLField(default="#")
+    linkedin = models.URLField(default="#")
+    youtube = models.URLField(default="#")
+    whatsapp = models.URLField(default="#")
+
+    def __str__(self):
+        return "Footer Content"
+
 # 2. Company model
 class Company(models.Model):
     STATUS_CHOICES = (
@@ -205,12 +254,19 @@ class ServicePageContent(models.Model):
 # models.py
 class ActivityPageContent(models.Model):
     title = models.CharField(max_length=100, default="My Activity")
-    subtitle = models.CharField(max_length=200, default="My Pickup Requests")
-    empty_message = models.CharField(max_length=200, default="No pickup requests yet.")
-    cta_request = models.CharField(max_length=100, default="Request another pickup")
+    subtitle = models.CharField(max_length=200, default="Track your recycling journey and impact.")
+    stats_title = models.CharField(max_length=100, default="Your Eco Stats")
+    activity_title = models.CharField(max_length=100, default="Recent Activity")
+    empty_message = models.CharField(max_length=200, default="You haven't made any pickup requests yet. Start recycling today!")
+    cta_request = models.CharField(max_length=100, default="Request a Pickup")
+    cta_rewards = models.CharField(max_length=100, default="View My Rewards")
+    goal_label = models.CharField(max_length=100, default="Monthly Recycling Goal")
+    goal_kg = models.PositiveIntegerField(default=50)
 
     def __str__(self):
         return "Activity Page Content"
+
+    
 
 # 4. Reward/Token model
 class Reward(models.Model):
